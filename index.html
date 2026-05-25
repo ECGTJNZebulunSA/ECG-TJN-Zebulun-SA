@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>About</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu+Condensed" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/common.css">
+    <link rel="stylesheet" href="styles/nav.css">
+    <link rel="stylesheet" href="styles/footer.css">
+    <link rel="stylesheet" href="styles/skewed-header.css">
+    <link rel="stylesheet" href="styles/page-container.css">
+    <link rel="stylesheet" href="styles/square-grid.css">
+    <link rel="stylesheet" href="styles/helpers.css">
+    <link rel="stylesheet" href="styles/media-queries.css">
+
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ECG TJN Navbar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+body { margin:0; padding:0; }
+
+/* Fixed navbar */
+.navbar-custom {
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+}
+
+.navbar-custom .nav-link {
+  color: black !important;
+  font-weight: 500;
+  margin: 0 8px;
+}
+
+.navbar-custom .nav-link:hover { text-decoration: underline; }
+
+.logo-container { display:flex; align-items:center; gap:8px; }
+
+.logo-container img { height:40px; width:40px; }
+
+.logo-text {
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+  white-space: nowrap;
+}
+
+.account-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: black;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.account-btn i { font-size:20px; }
+
+.account-text { display:block; }
+
+.dropdown-menu { min-width: 300px; padding:15px; overflow:hidden; }
+
+.dropdown-menu input { margin-bottom:10px; }
+
+@media (min-width: 992px) { .center-nav { position:absolute; left:55%; transform:translateX(-50%); } }
+
+body { padding-top:70px; }
+
+.form-toggle { cursor:pointer; color:blue; text-decoration:underline; }
+
+.slide { transition: all 0.4s ease; }
+
+/* Logged in display */
+.logged-in-btn {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:black;
+  font-weight:bold;
+}
+.logged-in-btn i {
+  font-size:24px;
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-custom">
+
+  <!-- Left Logo -->
+  <a class="navbar-brand logo-container" href="#">
+    <img src="images/logos/Zebulun-logo.jpg" alt="Logo">
+    <div class="logo-text">ECG TJN TRIBE OF ZEBULUN SA</div>
+  </a>
+
+  <!-- Mobile Toggle -->
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Middle Nav -->
+  <div class="collapse navbar-collapse justify-content-center center-nav" id="navbarContent">
+    <ul class="navbar-nav text-center">
+      <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+      <li class="nav-item"><a class="nav-link" href="contact_and_Support.html">Contact and Support</a></li>
+      <li class="nav-item"><a class="nav-link" href="prophetic-materials.html">Prophetic Materials</a></li>
+      <li class="nav-item"><a class="nav-link" href="events.html">Events</a></li>
+      <li class="nav-item"><a class="nav-link" href="Business-Advertisement.html">Business Ad</a></li>
+      <li class="nav-item"><a class="nav-link" href="investments.html">Investment</a></li>
+    </ul>
+  </div>
+
+  <!-- Right Account / Logged in -->
+  <div class="ms-auto" id="accountSection"></div>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// LocalStorage demo users
+let users = JSON.parse(localStorage.getItem('demoUsers')) || [];
+let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+
+// Update navbar
+function updateNavbar(){
+  const section = document.getElementById('accountSection');
+  if(currentUser){
+    section.innerHTML = `
+      <div class="logged-in-btn">
+        <i class="bi bi-person-circle"></i>
+        ${currentUser.name} – A ZEBULUNITE
+        <button class="btn btn-sm btn-outline-dark ms-2" onclick="logout()">Logout</button>
+      </div>
+    `;
+  } else {
+    section.innerHTML = `
+      <div class="dropdown" id="accountDropdownWrapper">
+        <div class="account-btn" data-bs-toggle="dropdown">
+          <i class="bi bi-person-circle"></i>
+          <div class="account-text">My Account</div>
+        </div>
+        <div class="dropdown-menu dropdown-menu-end" id="accountDropdown">
+          <form id="loginForm" class="slide">
+            <h6 class="mb-2">Login</h6>
+            <input type="email" class="form-control" placeholder="Email" required>
+            <input type="password" class="form-control" placeholder="Password" required>
+            <button type="submit" class="btn btn-dark w-100 mt-2">Login</button>
+            <p class="mt-2 text-center">Don't have an account? 
+              <span class="form-toggle" onclick="showRegister()">Register</span>
+            </p>
+          </form>
+          <form id="registerForm" class="slide" style="display:none;">
+            <h6 class="mb-2">Register</h6>
+            <input type="text" class="form-control" placeholder="Full Name" required>
+            <input type="email" class="form-control" placeholder="Email" required>
+            <input type="password" class="form-control" placeholder="Password" required>
+            <input type="password" class="form-control" placeholder="Confirm Password" required>
+            <button type="submit" class="btn btn-dark w-100 mt-2">Register</button>
+            <p class="mt-2 text-center">Already have an account? 
+              <span class="form-toggle" onclick="showLogin()">Login</span>
+            </p>
+          </form>
+        </div>
+      </div>
+    `;
+    attachFormListeners();
+  }
+}
+
+// Logout
+function logout(){
+  currentUser=null;
+  localStorage.removeItem('currentUser');
+  updateNavbar();
+}
+
+// Toggle login/register
+function showRegister(){
+  document.getElementById('loginForm').style.transform='translateX(-100%)';
+  setTimeout(()=>{
+    document.getElementById('loginForm').style.display='none';
+    document.getElementById('loginForm').style.transform='translateX(0)';
+    document.getElementById('registerForm').style.display='block';
+    document.getElementById('registerForm').style.transform='translateX(100%)';
+    setTimeout(()=>{document.getElementById('registerForm').style.transform='translateX(0)';},10);
+  },300);
+}
+
+function showLogin(){
+  document.getElementById('registerForm').style.transform='translateX(100%)';
+  setTimeout(()=>{
+    document.getElementById('registerForm').style.display='none';
+    document.getElementById('registerForm').style.transform='translateX(0)';
+    document.getElementById('loginForm').style.display='block';
+    document.getElementById('loginForm').style.transform='translateX(-100%)';
+    setTimeout(()=>{document.getElementById('loginForm').style.transform='translateX(0)';},10);
+  },300);
+}
+
+// Attach listeners
+function attachFormListeners(){
+  const registerForm = document.getElementById('registerForm');
+  if(registerForm){
+    registerForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      let name=this[0].value.trim();
+      let email=this[1].value.trim();
+      let pass=this[2].value;
+      let confirmPass=this[3].value;
+      if(pass!==confirmPass){ alert('Passwords do not match!'); return; }
+      if(users.find(u=>u.email===email)){ alert('Email already registered!'); return; }
+      users.push({name,email,pass});
+      localStorage.setItem('demoUsers',JSON.stringify(users));
+      alert('Registration successful! You can now login.');
+      showLogin();
+    });
+  }
+  const loginForm = document.getElementById('loginForm');
+  if(loginForm){
+    loginForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      let email=this[0].value.trim();
+      let pass=this[1].value;
+      let user = users.find(u=>u.email===email && u.pass===pass);
+      if(user){
+        currentUser=user;
+        localStorage.setItem('currentUser',JSON.stringify(user));
+        updateNavbar();
+        alert(`Welcome, ${user.name}!`);
+      } else { alert('Invalid email or password!'); }
+    });
+  }
+}
+
+// Init
+attachFormListeners();
+updateNavbar();
+</script>
+
+
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hero Section with Animation</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #f2f2f2; /* page background */
+    }
+
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+      padding: 50px 20px;
+      gap: 40px;
+      background-color: #d9d9d9; /* gray hero section */
+    }
+
+    .hero-left, .hero-right {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeSlideIn 1s forwards;
+    }
+
+    .hero-left {
+      flex: 1 1 300px;
+      max-width: 600px;
+      animation-delay: 0.2s;
+    }
+
+    .hero-left h1 {
+      font-size: 3em;
+      margin: 0 0 20px;
+      color: #333;
+    }
+
+    .hero-left p {
+      font-size: 1.2em;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .hero-left button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      font-size: 1em;
+      border: none;
+      background-color: #00f0ff;
+      color: #111;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .hero-left button:hover {
+      background-color: #00c0e6;
+      transform: scale(1.05);
+    }
+
+    .hero-right {
+      flex: 1 1 300px;
+      max-width: 500px;
+      text-align: center;
+      animation-delay: 0.4s;
+    }
+
+    .hero-right img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    /* Fade-in slide animation */
+    @keyframes fadeSlideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive for smaller screens */
+    @media (max-width: 900px) {
+      .hero {
+        flex-direction: column-reverse;
+        text-align: center;
+      }
+
+      .hero-left h1 {
+        font-size: 2.5em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="hero-left">
+      <h1>Welcome to Our Offical Website</h1>
+      <p>We are committed to supporting the vision of Prophet Shepherd Bushiri, promoting spiritual growth, tribe engagement, and empowerment of every member of this tribe. Together, we aim to Change South Africa by taking over the seven secular systems the world operate in, build churches and help every ECG TJN branches in South Africa.</p>
+      <button>Explore and Enjoy</button>
+    </div>
+    <div class="hero-right">
+      <!-- Placeholder image representing a person -->
+      <img src="images/people/Major-1.jpeg" alt="Company Representative">
+    </div>
+  </section>
+
+</body>
+</html>
+    
+<style>
+  .testimonials {
+    max-width: 1000px;
+    margin: 50px auto;
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+
+  .testimonials h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  .testimonials p.intro {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 40px;
+  }
+
+  .testimonial-cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .testimonial-card {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 30px 20px 20px 20px;
+    max-width: 300px;
+    text-align: center; /* Center everything */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  .testimonial-card img {
+    width: 100px;  /* Enlarged */
+    height: 100px; /* Enlarged */
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+  }
+
+  .testimonial-card p.quote {
+    font-style: italic;
+    color: #444;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+  }
+
+  .testimonial-card p.name {
+    font-weight: bold;
+    color: #222;
+    font-size: 1rem;
+  }
+</style>
+
+<div class="testimonials">
+  <h2>What others say about us</h2>
+  <p class="intro">Here is what our community members have to say:</p>
+
+  <div class="testimonial-cards">
+    <div class="testimonial-card">
+      <img src="images/people/Tshepang.jpg" alt="Ken Testimonial 1">
+      <p class="quote">"This website helps ECG TJN Zebulun members like me to get a beter understand of what it means to be a Zebulunite. Another benefit is that it unites us so if one member is strugelling we can help each other"</p>
+      <p class="name">– Tribe Member - Tshepang</p>
+    </div>
+
+    <div class="testimonial-card">
+      <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&h=100&q=80" alt="Ken Testimonial 2">
+      <p class="quote">"A solution solver to problems we as a tribe have been facing, Brings us one step closer from taking over as a Jesus Nation Church. "</p>
+      <p class="name">– Community Member 2</p>
+    </div>
+
+    <div class="testimonial-card">
+      <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&h=100&q=80" alt="Ken Testimonial 3">
+      <p class="quote">"This website makes the concerpt of United we stand, Divided we fall 100% true. Love the fact i can promote my Business to Fellow Zebulunite members"</p>
+      <p class="name">– Community Member 3</p>
+    </div>
+  </div>
+</div>
+
+
+
+<section class="features">
+  <div class="features-wrapper">
+    <div class="feature">
+      <i class="fas fa-bolt"></i>
+      <h3>Tribe of Zebulun Duties</h3>
+      <p>Zebulun is the piller of ECG TJN Church. Each members must aim to develop skills, finances and resources.</p>
+    </div>
+    <div class="feature">
+      <i class="fas fa-shield-alt"></i>
+      <h3>Tribe of Zebulun Solutions</h3>
+      <p>To educate/mentorship each tribe member in Zebulun their roles, duties, and responsibilities. Uniting Every Zebulun members in SA to achive one common Goal</p>
+    </div>
+    <div class="feature">
+      <i class="fas fa-lightbulb"></i>
+      <h3>Innovative Ideas</h3>
+      <p>Every Zebulun Members are incouraged to invest, Build schools, start Businesses .Then help our respective Branches in South Africa</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .features {
+    background-color: #fff; /* white background */
+    padding: 80px 20px;
+    text-align: center;
+  }
+
+  .features-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .feature {
+    flex: 1 1 250px;
+    max-width: 350px;
+    padding: 20px;
+    box-sizing: border-box;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .feature i {
+    font-size: 2.5em;
+    color: #00f0ff; /* light blue accent */
+    margin-bottom: 15px;
+  }
+
+  .feature h3 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: #333;
+  }
+
+  .feature p {
+    font-size: 1em;
+    color: #555;
+    line-height: 1.5;
+  }
+
+  .feature:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+
+  /* Responsive layout */
+  @media (max-width: 900px) {
+    .features-wrapper {
+      flex-direction: column;
+      gap: 30px;
+    }
+  }
+</style>
+
+<!-- Font Awesome CDN for icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<style>
+  .event-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #f0f8ff;
+    border: 2px solid #4a90e2;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+    color: #333;
+    text-align: center;
+  }
+
+  .event-date {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #4a90e2;
+    margin-bottom: 10px;
+  }
+
+  .event-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
+  .event-description {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .bible-verse {
+    font-style: italic;
+    color: #555;
+    border-top: 1px solid #4a90e2;
+    padding-top: 15px;
+    font-size: 0.95rem;
+  }
+</style>
+
+<div class="page">
+  <div class="event-card" id="card">
+    <div class="event-content">
+      <h3>National training & Business summit</h3>
+      <p>Empowering Zebulunite Members to take over</p>
+      <p class="date">16 May 2026</p>
+
+      <div class="countdown" id="countdown"></div>
+
+      <div class="scripture">📖 Deuteronomy 7:1</div>
+
+      <div class="details">
+        <strong>Scripture:</strong><br>
+        "When the LORD your God brings you into the land you are entering to possess and drives out before you many nations—the Hittites, Girgashites, Amorites, Canaanites, Perizzites, Hivites and Jebusites, seven nations larger and stronger than you—"
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* CENTER PAGE */
+.page {
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f5f7fb;
+  font-family: Arial, sans-serif;
+}
+
+/* CARD */
+.event-card {
+  width: 90%;              /* stretched */
+  max-width: 450px;       /* keeps it clean on large screens */
+  height: 260px;
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  color: white;
+  transition: 0.4s ease;
+}
+
+/* BACKGROUND IMAGE */
+.event-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('images/people/ecgZe.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* OVERLAY */
+.event-content {
+  position: relative;
+  z-index: 2;
+  padding: 18px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.1));
+}
+
+h3 {
+  margin: 0;
+  font-size: 1.3em;
+}
+
+.date {
+  font-size: 0.9em;
+  opacity: 0.9;
+}
+
+.scripture {
+  margin-top: 6px;
+  color: #ffd700;
+  font-size: 0.9em;
+}
+
+/* HIDDEN DETAILS */
+.details {
+  display: none;
+  margin-top: 10px;
+  font-size: 0.85em;
+  line-height: 1.4;
+}
+
+/* EXPAND */
+.event-card.active {
+  height: 360px;
+}
+
+.event-card.active .details {
+  display: block;
+}
+
+/* COUNTDOWN */
+.countdown {
+  font-size: 0.85em;
+  color: #00ffcc;
+  margin-top: 5px;
+}
+</style>
+
+<script>
+const card = document.getElementById("card");
+
+/* click expand */
+card.addEventListener("click", () => {
+  card.classList.toggle("active");
+});
+
+/* countdown */
+const eventDate = new Date("2026-06-10").getTime();
+
+setInterval(() => {
+  const now = new Date().getTime();
+  const diff = eventDate - now;
+
+  if (diff <= 0) {
+    document.getElementById("countdown").innerText = "Event started";
+    return;
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * -110));
+  document.getElementById("countdown").innerText = `${days} days ago`;
+}, 1000);
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soft Neon Footer with Brand Icons</title>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: #fff;
+    }
+
+    .content {
+      flex: 1;
+      padding: 20px;
+    }
+
+    footer.neon-footer {
+      background: white;
+      color: #fff;
+      text-align: center;
+      padding: 4px 20px;
+      border-top: 2px solid #00f0ff;
+      position: relative;
+      overflow: hidden;
+      animation: footerPulse 3s infinite alternate;
+    }
+
+    @keyframes footerPulse {
+      0% { box-shadow: 0 0 5px #00f0ff, 0 0 10px #00f0ff; }
+      50% { box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff; }
+      100% { box-shadow: 0 0 5px #00f0ff, 0 0 10px #00f0ff; }
+    }
+
+    .neon-footer .footer-logo {
+      font-size: 2.5em;
+      color: #00f0ff;
+      text-shadow: 0 0 3px #00f0ff, 0 0 6px #00f0ff, 0 0 12px #00f0ff;
+      margin-bottom: 20px;
+      transition: 0.3s;
+      animation: logoPulse 2s infinite alternate;
+    }
+
+    @keyframes logoPulse {
+      0% { text-shadow: 0 0 3px #00f0ff, 0 0 6px #00f0ff, 0 0 12px #00f0ff; }
+      50% { text-shadow: 0 0 6px #00f0ff, 0 0 12px #00f0ff, 0 0 18px #00f0ff; }
+      100% { text-shadow: 0 0 3px #00f0ff, 0 0 6px #00f0ff, 0 0 12px #00f0ff; }
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+
+    .footer-links li a {
+      color: black;
+      text-decoration: none;
+      font-weight: bold;
+      position: relative;
+      transition: 0.3s;
+    }
+
+    .footer-links li a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      left: 0;
+      bottom: -5px;
+      background: #00f0ff;
+      transition: width 0.3s;
+    }
+
+    .footer-links li a:hover::after {
+      width: 100%;
+    }
+
+    .social-icons {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .social {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.5em;
+      transition: 0.3s;
+      animation: socialPulse 2s infinite alternate, float 3s infinite ease-in-out;
+      color: #fff;
+    }
+
+    @keyframes socialPulse {
+      0% { box-shadow: 0 0 2px currentColor, 0 0 4px currentColor; }
+      50% { box-shadow: 0 0 4px currentColor, 0 0 8px currentColor; }
+      100% { box-shadow: 0 0 2px currentColor, 0 0 4px currentColor; }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+      100% { transform: translateY(0px); }
+    }
+
+    /* Stagger the pulses */
+    .social:nth-child(1) { animation-delay: 0s, 0s; }
+    .social:nth-child(2) { animation-delay: 0.3s, 0.2s; }
+    .social:nth-child(3) { animation-delay: 0.6s, 0.4s; }
+
+    /* Brand colors for each icon */
+    .social.whatsapp { color: #25D366; border-color: #25D366; }
+    .social.facebook { color: #3b5998; border-color: #3b5998; }
+    .social.telegram { color: #0088cc; border-color: #0088cc; }
+
+    .social:hover {
+      color: #111;
+      background-color: currentColor;
+      /* softened hover glow */
+      box-shadow: 0 0 8px currentColor, 0 0 16px currentColor;
+    }
+
+    .footer-copy {
+      font-size: 0.8em;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <footer class="neon-footer">
+    <div class="footer-content">
+      <h2 class="footer-logo">ECG TJN TRIBE OF ZEBULUN SA</h2>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="contact_and_Support.html">Contact</a></li>
+      </ul>
+      <div class="social-icons">
+        <a href="#" class="social whatsapp"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="social facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social telegram"><i class="fab fa-telegram-plane"></i></a>
+      </div>
+    </div>
+    <p class="footer-copy">© 2026 ECG TJN TRIBE OF ZEBULUN SA. All rights reserved.</p>
+  </footer>
+</body>
+</html>
+</body>
+</html>

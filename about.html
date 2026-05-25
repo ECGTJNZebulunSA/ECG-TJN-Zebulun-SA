@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>About</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu+Condensed" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/common.css">
+    <link rel="stylesheet" href="styles/nav.css">
+    <link rel="stylesheet" href="styles/footer.css">
+    <link rel="stylesheet" href="styles/skewed-header.css">
+    <link rel="stylesheet" href="styles/page-container.css">
+    <link rel="stylesheet" href="styles/square-grid.css">
+    <link rel="stylesheet" href="styles/helpers.css">
+    <link rel="stylesheet" href="styles/media-queries.css">
+
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ECG TJN Navbar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+body { margin:0; padding:0; }
+
+/* Fixed navbar */
+.navbar-custom {
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+}
+
+.navbar-custom .nav-link {
+  color: black !important;
+  font-weight: 500;
+  margin: 0 8px;
+}
+
+.navbar-custom .nav-link:hover { text-decoration: underline; }
+
+.logo-container { display:flex; align-items:center; gap:8px; }
+
+.logo-container img { height:40px; width:40px; }
+
+.logo-text {
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+  white-space: nowrap;
+}
+
+.account-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: black;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.account-btn i { font-size:20px; }
+
+.account-text { display:block; }
+
+.dropdown-menu { min-width: 300px; padding:15px; overflow:hidden; }
+
+.dropdown-menu input { margin-bottom:10px; }
+
+@media (min-width: 992px) { .center-nav { position:absolute; left:55%; transform:translateX(-50%); } }
+
+body { padding-top:70px; }
+
+.form-toggle { cursor:pointer; color:blue; text-decoration:underline; }
+
+.slide { transition: all 0.4s ease; }
+
+/* Logged in display */
+.logged-in-btn {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:black;
+  font-weight:bold;
+}
+.logged-in-btn i {
+  font-size:24px;
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-custom">
+
+  <!-- Left Logo -->
+  <a class="navbar-brand logo-container" href="#">
+    <img src="images/logos/Zebulun-logo.jpg" alt="Logo">
+    <div class="logo-text">ECG TJN TRIBE OF ZEBULUN SA</div>
+  </a>
+
+  <!-- Mobile Toggle -->
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Middle Nav -->
+  <div class="collapse navbar-collapse justify-content-center center-nav" id="navbarContent">
+    <ul class="navbar-nav text-center">
+      <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+      <li class="nav-item"><a class="nav-link" href="contact_and_Support.html">Contact and Support</a></li>
+      <li class="nav-item"><a class="nav-link" href="prophetic-materials.html">Prophetic Materials</a></li>
+      <li class="nav-item"><a class="nav-link" href="events.html">Events</a></li>
+      <li class="nav-item"><a class="nav-link" href="Business-Advertisement.html">Business Ad</a></li>
+      <li class="nav-item"><a class="nav-link" href="investments.html">Investment</a></li>
+    </ul>
+  </div>
+
+  <!-- Right Account / Logged in -->
+  <div class="ms-auto" id="accountSection"></div>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// LocalStorage demo users
+let users = JSON.parse(localStorage.getItem('demoUsers')) || [];
+let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+
+// Update navbar
+function updateNavbar(){
+  const section = document.getElementById('accountSection');
+  if(currentUser){
+    section.innerHTML = `
+      <div class="logged-in-btn">
+        <i class="bi bi-person-circle"></i>
+        ${currentUser.name} – A ZEBULUNITE
+        <button class="btn btn-sm btn-outline-dark ms-2" onclick="logout()">Logout</button>
+      </div>
+    `;
+  } else {
+    section.innerHTML = `
+      <div class="dropdown" id="accountDropdownWrapper">
+        <div class="account-btn" data-bs-toggle="dropdown">
+          <i class="bi bi-person-circle"></i>
+          <div class="account-text">My Account</div>
+        </div>
+        <div class="dropdown-menu dropdown-menu-end" id="accountDropdown">
+          <form id="loginForm" class="slide">
+            <h6 class="mb-2">Login</h6>
+            <input type="email" class="form-control" placeholder="Email" required>
+            <input type="password" class="form-control" placeholder="Password" required>
+            <button type="submit" class="btn btn-dark w-100 mt-2">Login</button>
+            <p class="mt-2 text-center">Don't have an account? 
+              <span class="form-toggle" onclick="showRegister()">Register</span>
+            </p>
+          </form>
+          <form id="registerForm" class="slide" style="display:none;">
+            <h6 class="mb-2">Register</h6>
+            <input type="text" class="form-control" placeholder="Full Name" required>
+            <input type="email" class="form-control" placeholder="Email" required>
+            <input type="password" class="form-control" placeholder="Password" required>
+            <input type="password" class="form-control" placeholder="Confirm Password" required>
+            <button type="submit" class="btn btn-dark w-100 mt-2">Register</button>
+            <p class="mt-2 text-center">Already have an account? 
+              <span class="form-toggle" onclick="showLogin()">Login</span>
+            </p>
+          </form>
+        </div>
+      </div>
+    `;
+    attachFormListeners();
+  }
+}
+
+// Logout
+function logout(){
+  currentUser=null;
+  localStorage.removeItem('currentUser');
+  updateNavbar();
+}
+
+// Toggle login/register
+function showRegister(){
+  document.getElementById('loginForm').style.transform='translateX(-100%)';
+  setTimeout(()=>{
+    document.getElementById('loginForm').style.display='none';
+    document.getElementById('loginForm').style.transform='translateX(0)';
+    document.getElementById('registerForm').style.display='block';
+    document.getElementById('registerForm').style.transform='translateX(100%)';
+    setTimeout(()=>{document.getElementById('registerForm').style.transform='translateX(0)';},10);
+  },300);
+}
+
+function showLogin(){
+  document.getElementById('registerForm').style.transform='translateX(100%)';
+  setTimeout(()=>{
+    document.getElementById('registerForm').style.display='none';
+    document.getElementById('registerForm').style.transform='translateX(0)';
+    document.getElementById('loginForm').style.display='block';
+    document.getElementById('loginForm').style.transform='translateX(-100%)';
+    setTimeout(()=>{document.getElementById('loginForm').style.transform='translateX(0)';},10);
+  },300);
+}
+
+// Attach listeners
+function attachFormListeners(){
+  const registerForm = document.getElementById('registerForm');
+  if(registerForm){
+    registerForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      let name=this[0].value.trim();
+      let email=this[1].value.trim();
+      let pass=this[2].value;
+      let confirmPass=this[3].value;
+      if(pass!==confirmPass){ alert('Passwords do not match!'); return; }
+      if(users.find(u=>u.email===email)){ alert('Email already registered!'); return; }
+      users.push({name,email,pass});
+      localStorage.setItem('demoUsers',JSON.stringify(users));
+      alert('Registration successful! You can now login.');
+      showLogin();
+    });
+  }
+  const loginForm = document.getElementById('loginForm');
+  if(loginForm){
+    loginForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      let email=this[0].value.trim();
+      let pass=this[1].value;
+      let user = users.find(u=>u.email===email && u.pass===pass);
+      if(user){
+        currentUser=user;
+        localStorage.setItem('currentUser',JSON.stringify(user));
+        updateNavbar();
+        alert(`Welcome, ${user.name}!`);
+      } else { alert('Invalid email or password!'); }
+    });
+  }
+}
+
+// Init
+attachFormListeners();
+updateNavbar();
+</script>
+
+
+<div id="space"></div>
+
+<style>
+  body {
+    margin: 0;
+    background: #000;
+  }
+
+  #space {
+    margin-top: 80px; /* spacing below navbar */
+  }
+</style>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About ECG TJN Tribe of Zebulun</title>
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+/* Container */
+.about-container {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+/* Left image */
+.about-image {
+  flex: 1 1 300px;
+  min-width: 250px;
+  max-width: 400px;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Right text content */
+.about-text {
+  flex: 2 1 400px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.about-text h1 {
+  font-size: 2em;
+  color: #0077cc;
+  margin-bottom: 15px;
+}
+
+.about-text p {
+  font-size: 1em;
+  line-height: 1.6;
+  margin-bottom: 15px;
+  color: #555;
+}
+
+/* Highlighting Prophet Shepherd Bushiri */
+.about-text p strong {
+  color: #0a6dcb;
+  font-weight: bold;
+}
+
+/* Responsive */
+@media(max-width: 768px) {
+  .about-container {
+    flex-direction: column;
+  }
+  .about-image {
+    width: 100%;
+    height: auto;
+  }
+  .about-text {
+    padding: 20px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="about-container">
+  <img src="images/people/Prophets.Jpg" alt="Owner" class="about-image">
+  
+  <div class="about-text">
+    <h1>About ECG TJN Tribe of Zebulun</h1>
+    <p>Welcome to the <strong>ECG TJN Tribe of Zebulun Official Website</strong>. Our mission is to unite all members of the Zebulun community, fostering strong connections and shared faith across the globe.</p>
+    <p>We are committed to supporting the vision of <strong>Prophet Shepherd Bushiri</strong>, promoting spiritual growth, tribe engagement, and empowerment of every member of the tribe. Together, we aim to uphold the values and teachings that guide us towards a meaningful and purposeful life.</p>
+    <p>Through this platform, members can stay informed, participate in events, and actively contribute to the growth and well-being of our Tribe. Those who are in or interested in business and investing this platform allows you to paticipate.</p>
+    <P>Deuteronomy 33:18-19<br>
+18 Moses said this about the tribes of Zebulun and Issachar[a]:
+
+“May the people of Zebulun prosper in their travels.
+    May the people of Issachar prosper at home in their tents.<br>
+19 They summon the people to the mountain
+    to offer proper sacrifices there.
+They benefit from the riches of the sea
+    and the hidden treasures in the sand.”</p>
+  </div>
+</div>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hero Section with Animation</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #f2f2f2; /* page background */
+    }
+
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+      padding: 50px 20px;
+      gap: 40px;
+      background-color: #d9d9d9; /* gray hero section */
+    }
+
+    .hero-left, .hero-right {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeSlideIn 1s forwards;
+    }
+
+    .hero-left {
+      flex: 1 1 300px;
+      max-width: 600px;
+      animation-delay: 0.2s;
+    }
+
+    .hero-left h1 {
+      font-size: 3em;
+      margin: 0 0 20px;
+      color: #333;
+    }
+
+    .hero-left p {
+      font-size: 1.2em;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .hero-left button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      font-size: 1em;
+      border: none;
+      background-color: #00f0ff;
+      color: #111;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .hero-left button:hover {
+      background-color: #00c0e6;
+      transform: scale(1.05);
+    }
+
+    .hero-right {
+      flex: 1 1 300px;
+      max-width: 500px;
+      text-align: center;
+      animation-delay: 0.4s;
+    }
+
+    .hero-right img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    /* Fade-in slide animation */
+    @keyframes fadeSlideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive for smaller screens */
+    @media (max-width: 900px) {
+      .hero {
+        flex-direction: column-reverse;
+        text-align: center;
+      }
+
+      .hero-left h1 {
+        font-size: 2.5em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="hero-left">
+      <h1>Solution and Problem Solution Center</h1>
+      <p>This Website Promises to Unite Zebulunite members as One to take over The Seven Cecular Systems the world is operating under</p>
+  
+<style>
+  #wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  #container {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>
+</head>
+
+<div id="wrapper">
+  <div id="container">
+    <img id="zebulunImage" src="images/logos/zebulunL.jpg" alt="Zebulun" />
+  </div>
+</div>
+
+<script>
+  const container = document.getElementById('container');
+
+  function resizeImage() {
+    let maxWidth = window.innerWidth * 0.2; // 20% of viewport width
+    container.style.width = maxWidth + 'px';
+    container.style.height = maxWidth + 'px';
+  }
+
+  window.addEventListener('resize', resizeImage);
+  resizeImage();
+</script>
+  
+    </div>
+    <div class="hero-right">
+      <!-- Placeholder image representing a person -->
+      <img src="images/people/zebulunM.png" alt="Company Representative">
+    </div>
+  </section>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mission & Vision Section</title>
+<style>
+  /* ===== General Styles ===== */
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f9;
+    color: #333;
+  }
+
+  .section-container {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 40px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  }
+
+  .section-container h1 {
+    text-align: center;
+    font-size: 2.2em;
+    margin-bottom: 20px;
+    color: #2c3e50;
+  }
+
+  .section-container p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 25px;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  @media(min-width: 768px){
+    .cards {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .card {
+    background: #ecf0f1;
+    padding: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    background: #d1d8e0;
+  }
+
+  .card h3 {
+    margin-top: 0;
+    color: #34495e;
+  }
+
+  .card-content {
+    display: none;
+    margin-top: 10px;
+    color: #555;
+    font-size: 0.95em;
+    line-height: 1.5;
+  }
+
+  .active .card-content {
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<div class="section-container">
+  <h1>ECG TJN CHURCH</h1>
+
+  <div class="cards">
+    <div class="card">
+      <h3>Overall Goal</h3>
+      <div class="card-content">
+To dominate, overtake and establish the sovereignty of Jesus Christ on earth and prepare the world for rapture.
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Mission Statement</h3>
+      <div class="card-content">
+ECG – TJNC exists to preach the gospel of Jesus Christ to the whole world and provide spiritual, social, educational, and psychological needs of the human race, through the prophetic grace and anointing given by God to the Major Prophet, Dr.
+Shepherd Bushiri.
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Vision Statement</h3>
+      <div class="card-content">
+ To be the leading, living, and dynamic prophetic church demonstrating the love, power, and compassion of Jesus Christ globally
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Core Values</h3>
+      <div class="card-content">
+Love, kindness, and compassion.
+Factual and fairness in treatment.
+Mutual Respect & Tolerance.
+Team spirit & Unity.
+Excellence & Professionalism.
+Commitment to duty & service
+Integrity and honesty.
+Accountability & Transparency</li>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===== JavaScript to toggle card content =====
+  const cards = document.querySelectorAll('.card');
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      card.classList.toggle('active');
+    });
+  });
+</script>
+
+</body>
+</html>
+
+<div class="page">
+  <h2>ECG TJN Zebulun Tribe — 2026 Vision</h2>
+  <p class="sub">Goals • Mission • Achievements</p>
+
+  <div class="goals">
+
+    <div class="goal" onclick="toggle(this)">
+      <h3>🏗️ Church Expansion</h3>
+      <p class="short">Building ECG TJN churches across regions.</p>
+      <div class="details">
+        Establish new church branches in communities across South Africa to spread the gospel and strengthen local worship centers.
+      </div>
+    </div>
+
+    <div class="goal" onclick="toggle(this)">
+      <h3>💼 Business Empowerment</h3>
+      <p class="short">Zebulun tribe economic growth.</p>
+      <div class="details">
+        Encourage members to start businesses outside the church to build financial independence while supporting the ministry.
+      </div>
+    </div>
+
+    <div class="goal" onclick="toggle(this)">
+      <h3>🙏 Sermons & Revival</h3>
+      <p class="short">Spiritual growth and teaching.</p>
+      <div class="details">
+        Organize powerful sermons, revivals, and prayer nights to strengthen faith and deepen relationship with God.
+      </div>
+    </div>
+
+    <div class="goal" onclick="toggle(this)">
+      <h3>👑 Leadership Development</h3>
+      <p class="short">Raising future church leaders.</p>
+      <div class="details">
+        Train young leaders within the Zebulun tribe to carry the vision of ECG TJN forward with wisdom and discipline.
+      </div>
+    </div>
+
+    <div class="goal" onclick="toggle(this)">
+      <h3>🌍 Community Impact</h3>
+      <p class="short">Helping the local community.</p>
+      <div class="details">
+        Outreach programs including food drives, education support, and helping the poor in surrounding communities.
+      </div>
+    </div>
+
+  </div>
+
+  <p class="verse">
+    “Zebulun shall dwell at the haven of the sea; and he shall be for an haven of ships.” — Genesis 49:13
+  </p>
+</div>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6fb;
+}
+
+.page {
+  max-width: 650px;
+  margin: auto;
+  padding: 20px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.sub {
+  text-align: center;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* GOALS */
+.goals {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.goal {
+  background: white;
+  padding: 15px;
+  border-radius: 14px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: 0.3s;
+  border-left: 5px solid #00a0ff;
+}
+
+.goal:hover {
+  transform: translateY(-3px);
+}
+
+.goal h3 {
+  margin: 0;
+}
+
+.short {
+  color: #666;
+  margin: 5px 0;
+  font-size: 0.9em;
+}
+
+/* hidden details */
+.details {
+  display: none;
+  margin-top: 10px;
+  font-size: 0.9em;
+  color: #333;
+  line-height: 1.4;
+}
+
+/* expanded */
+.goal.active .details {
+  display: block;
+}
+
+/* verse */
+.verse {
+  text-align: center;
+  margin-top: 25px;
+  font-style: italic;
+  color: #444;
+}
+</style>
+
+<script>
+function toggle(el) {
+  el.classList.toggle("active");
+}
+</script>
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f5f7fa;
+    color: #222;
+  }
+
+  /* Navbar */
+  .navbar {
+    background: white;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+
+  .navbar h1 {
+    margin: 0;
+    font-size: 20px;
+    color: #007BFF;
+  }
+
+  .nav-links a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #555;
+    font-size: 14px;
+  }
+
+  .nav-links a:hover {
+    color: #007BFF;
+  }
+
+  /* Hero Section */
+  .hero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 60px 40px;
+  }
+
+  .hero-text {
+    max-width: 500px;
+  }
+
+  .hero-text h2 {
+    font-size: 34px;
+    margin-bottom: 15px;
+  }
+
+  .hero-text p {
+    font-size: 18px;
+    color: #555;
+  }
+
+  .highlight {
+    color: #007BFF;
+    font-weight: bold;
+  }
+
+  .hero img {
+    width: 350px;
+    border-radius: 10px;
+  }
+
+  /* Testimonials */
+  .testimonials {
+    background: white;
+    padding: 50px 20px;
+    text-align: center;
+  }
+
+  .testimonial-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-top: 30px;
+  }
+
+  .card {
+    width: 260px;
+    padding: 20px;
+    border-radius: 10px;
+    background: #f9fbfd;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    
+  }
+
+  .card img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+  }
+
+  .card h4 {
+    margin: 10px 0 5px;
+  }
+
+  .card p {
+    font-size: 14px;
+    color: #555;
+  }
+
+  .rating {
+    color: gold;
+    margin-top: 8px;
+  }
+
+  /* Stats Section */
+  .stats {
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .stats h2 {
+    font-size: 28px;
+  }
+
+  .big-number {
+    font-size: 40px;
+    color: #007BFF;
+    margin-top: 10px;
+  }
+
+  footer {
+    text-align: center;
+    padding: 20px;
+    background: #007BFF;
+    color: white;
+    margin-top: 30px;
+  }
+</style>
+
+<!-- Hero Section -->
+<div class="hero">
+  <div class="hero-text">
+    <h2>South Africans Love Our Platform 🇿🇦</h2>
+    <p>Over <span class="highlight" id="users">0</span> people in South Africa have already tested and loved how this website can unite Zubulun members as one and make a differance .</p>
+  </div>
+
+  <img src="all-tribes.jpg">
+</div>
+
+<!-- Stats -->
+<div class="stats">
+  <h2>Customer Satisfaction</h2>
+  <div class="big-number" id="counter">0</div>
+  <p>happy users and counting</p>
+</div>
+
+<!-- Testimonials -->
+<div class="testimonials">
+  <h2>Real Feedback</h2>
+
+  <div class="testimonial-grid">
+
+    <div class="card">
+      <img src="images/people/Tshepang.jpg">
+      <h4>Tshepang S.</h4>
+      <p>This Website is amazing.It's very easy to use and super reliable.</p>
+      <div class="rating">★★★★★</div>
+    </div>
+
+    <div class="card">
+      <img src="https://randomuser.me/api/portraits/women/65.jpg">
+      <h4>Naledi P.</h4>
+      <p>Love the mentorship and traning it provides. User Friendly.</p>
+      <div class="rating">★★★★★</div>
+    </div>
+
+    <div class="card">
+      <img src="https://randomuser.me/api/portraits/men/22.jpg">
+      <h4>David K.</h4>
+      <p>Professional and efficient. Highly recommended!</p>
+      <div class="rating">★★★★★</div>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+  let totalUsers = 1000;
+
+  function animateNumber(id, end) {
+    let start = 0;
+    let duration = 1500;
+    let stepTime = Math.abs(Math.floor(duration / end));
+    let obj = document.getElementById(id);
+
+    let timer = setInterval(() => {
+      start++;
+      obj.innerText = start.toLocaleString();
+
+      if (start === end) {
+        clearInterval(timer);
+      }
+    }, stepTime);
+  }
+
+  animateNumber("users", totalUsers);
+  animateNumber("counter", totalUsers);
+</script>
+
+    
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soft Neon Footer with Brand Icons</title>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: #fff;
+    }
+
+    .content {
+      flex: 1;
+      padding: 20px;
+    }
+
+    footer.neon-footer {
+      background: white;
+      color: #fff;
+      text-align: center;
+      padding: 4px 20px;
+      border-top: 2px solid #00f0ff;
+      position: relative;
+      overflow: hidden;
+      animation: footerPulse 3s infinite alternate;
+    }
+
+    @keyframes footerPulse {
+      0% { box-shadow: 0 0 5px #00f0ff, 0 0 10px #00f0ff; }
+      50% { box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff; }
+      100% { box-shadow: 0 0 5px #00f0ff, 0 0 10px #00f0ff; }
+    }
+
+    .neon-footer .footer-logo {
+      font-size: 2.5em;
+      color: #00f0ff;
+      text-shadow: 0 0 3px #00f0ff, 0 0 6px #00f0ff, 0 0 12px #00f0ff;
+      margin-bottom: 20px;
+      transition: 0.3s;
+      animation: logoPulse 2s infinite alternate;
+    }
+
+    @keyframes logoPulse {
+      0% { text-shadow: 0 0 3px #00f0ff, 0 0 6px #00f0ff, 0 0 12px #00f0ff; }
+      50% { text-shadow: 0 0 6px #00f0ff, 0 0 12px #00f0ff, 0 0 18px #00f0ff; }
+      100% { text-shadow: 0 0 3px #00f0ff, 0 0 6px #00f0ff, 0 0 12px #00f0ff; }
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+
+    .footer-links li a {
+      color: black;
+      text-decoration: none;
+      font-weight: bold;
+      position: relative;
+      transition: 0.3s;
+    }
+
+    .footer-links li a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      left: 0;
+      bottom: -5px;
+      background: #00f0ff;
+      transition: width 0.3s;
+    }
+
+    .footer-links li a:hover::after {
+      width: 100%;
+    }
+
+    .social-icons {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .social {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.5em;
+      transition: 0.3s;
+      animation: socialPulse 2s infinite alternate, float 3s infinite ease-in-out;
+      color: #fff;
+    }
+
+    @keyframes socialPulse {
+      0% { box-shadow: 0 0 2px currentColor, 0 0 4px currentColor; }
+      50% { box-shadow: 0 0 4px currentColor, 0 0 8px currentColor; }
+      100% { box-shadow: 0 0 2px currentColor, 0 0 4px currentColor; }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+      100% { transform: translateY(0px); }
+    }
+
+    /* Stagger the pulses */
+    .social:nth-child(1) { animation-delay: 0s, 0s; }
+    .social:nth-child(2) { animation-delay: 0.3s, 0.2s; }
+    .social:nth-child(3) { animation-delay: 0.6s, 0.4s; }
+
+    /* Brand colors for each icon */
+    .social.whatsapp { color: #25D366; border-color: #25D366; }
+    .social.facebook { color: #3b5998; border-color: #3b5998; }
+    .social.telegram { color: #0088cc; border-color: #0088cc; }
+
+    .social:hover {
+      color: #111;
+      background-color: currentColor;
+      /* softened hover glow */
+      box-shadow: 0 0 8px currentColor, 0 0 16px currentColor;
+    }
+
+    .footer-copy {
+      font-size: 0.8em;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <footer class="neon-footer">
+    <div class="footer-content">
+      <h2 class="footer-logo">ECG TJN TRIBE OF ZEBULUN SA</h2>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="contact_and_Support.html">Contact</a></li>
+      </ul>
+      <div class="social-icons">
+        <a href="#" class="social whatsapp"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="social facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social telegram"><i class="fab fa-telegram-plane"></i></a>
+      </div>
+    </div>
+    <p class="footer-copy">© 2026 ECG TJN TRIBE OF ZEBULUN SA. All rights reserved.</p>
+  </footer>
+</body>
+</html>
+</body>
+</html>

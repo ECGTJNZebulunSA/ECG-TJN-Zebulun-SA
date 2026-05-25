@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Homepage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu+Condensed" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/common.css">
+    <link rel="stylesheet" href="styles/nav.css">
+    <link rel="stylesheet" href="styles/homepage.css">
+    <link rel="stylesheet" href="styles/footer.css">
+    <link rel="stylesheet" href="styles/media-queries.css">
+
+</head>
+<body>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ECG TJN Navbar with Icon</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+body { margin:0; padding:0; }
+
+/* Fixed navbar */
+.navbar-custom {
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+}
+
+.navbar-custom .nav-link {
+  color: black !important;
+  font-weight: 500;
+  margin: 0 8px;
+}
+
+.navbar-custom .nav-link:hover { text-decoration: underline; }
+
+.logo-container { display:flex; align-items:center; gap:8px; }
+
+.logo-container img { height:40px; width:40px; }
+
+.logo-text {
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+  white-space: nowrap;
+}
+
+.account-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: black;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.account-btn i { font-size:20px; }
+
+.account-text { display:block; }
+
+.dropdown-menu { min-width: 300px; padding:15px; overflow:hidden; }
+
+.dropdown-menu input { margin-bottom:10px; }
+
+@media (min-width: 992px) { .center-nav { position:absolute; left:55%; transform:translateX(-50%); } }
+
+body { padding-top:70px; }
+
+.form-toggle { cursor:pointer; color:blue; text-decoration:underline; }
+
+.slide { transition: all 0.4s ease; }
+
+/* Logged in display */
+.logged-in-btn {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:black;
+  font-weight:bold;
+}
+.logged-in-btn i {
+  font-size:24px;
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-custom">
+
+  <!-- Left Logo -->
+  <a class="navbar-brand logo-container" href="#">
+    <img src="images/logos/Zebulun-logo.jpg" alt="Logo">
+    <div class="logo-text">ECG TJN TRIBE OF ZEBULUN SA</div>
+  </a>
+
+  <!-- Mobile Toggle -->
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Middle Nav -->
+  <div class="collapse navbar-collapse justify-content-center center-nav" id="navbarContent">
+    <ul class="navbar-nav text-center">
+      <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+      <li class="nav-item"><a class="nav-link" href="contact_and_Support.html">Contact and Support</a></li>
+      <li class="nav-item"><a class="nav-link" href="prophetic-materials.html">Prophetic Materials</a></li>
+      <li class="nav-item"><a class="nav-link" href="events.html">Events</a></li>
+      <li class="nav-item"><a class="nav-link" href="Business-Advertisement.html">Business Ad</a></li>
+      <li class="nav-item"><a class="nav-link" href="investments.html">Investment</a></li>
+    </ul>
+  </div>
+
+  <!-- Right Account / Logged in -->
+  <div class="ms-auto" id="accountSection"></div>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// LocalStorage demo users
+let users = JSON.parse(localStorage.getItem('demoUsers')) || [];
+let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+
+// Update navbar
+function updateNavbar(){
+  const section = document.getElementById('accountSection');
+  if(currentUser){
+    section.innerHTML = `
+      <div class="logged-in-btn">
+        <i class="bi bi-person-circle"></i>
+        ${currentUser.name} – A ZEBULUNITE
+        <button class="btn btn-sm btn-outline-dark ms-2" onclick="logout()">Logout</button>
+      </div>
+    `;
+  } else {
+    section.innerHTML = `
+      <div class="dropdown" id="accountDropdownWrapper">
+        <div class="account-btn" data-bs-toggle="dropdown">
+          <i class="bi bi-person-circle"></i>
+          <div class="account-text">My Account</div>
+        </div>
+        <div class="dropdown-menu dropdown-menu-end" id="accountDropdown">
+          <form id="loginForm" class="slide">
+            <h6 class="mb-2">Login</h6>
+            <input type="email" class="form-control" placeholder="Email" required>
+            <input type="password" class="form-control" placeholder="Password" required>
+            <button type="submit" class="btn btn-dark w-100 mt-2">Login</button>
+            <p class="mt-2 text-center">Don't have an account? 
+              <span class="form-toggle" onclick="showRegister()">Register</span>
+            </p>
+          </form>
+          <form id="registerForm" class="slide" style="display:none;">
+            <h6 class="mb-2">Register</h6>
+            <input type="text" class="form-control" placeholder="Full Name" required>
+            <input type="email" class="form-control" placeholder="Email" required>
+            <input type="password" class="form-control" placeholder="Password" required>
+            <input type="password" class="form-control" placeholder="Confirm Password" required>
+            <button type="submit" class="btn btn-dark w-100 mt-2">Register</button>
+            <p class="mt-2 text-center">Already have an account? 
+              <span class="form-toggle" onclick="showLogin()">Login</span>
+            </p>
+          </form>
+        </div>
+      </div>
+    `;
+    attachFormListeners();
+  }
+}
+
+// Logout
+function logout(){
+  currentUser=null;
+  localStorage.removeItem('currentUser');
+  updateNavbar();
+}
+
+// Toggle login/register
+function showRegister(){
+  document.getElementById('loginForm').style.transform='translateX(-100%)';
+  setTimeout(()=>{
+    document.getElementById('loginForm').style.display='none';
+    document.getElementById('loginForm').style.transform='translateX(0)';
+    document.getElementById('registerForm').style.display='block';
+    document.getElementById('registerForm').style.transform='translateX(100%)';
+    setTimeout(()=>{document.getElementById('registerForm').style.transform='translateX(0)';},10);
+  },300);
+}
+
+function showLogin(){
+  document.getElementById('registerForm').style.transform='translateX(100%)';
+  setTimeout(()=>{
+    document.getElementById('registerForm').style.display='none';
+    document.getElementById('registerForm').style.transform='translateX(0)';
+    document.getElementById('loginForm').style.display='block';
+    document.getElementById('loginForm').style.transform='translateX(-100%)';
+    setTimeout(()=>{document.getElementById('loginForm').style.transform='translateX(0)';},10);
+  },300);
+}
+
+// Attach listeners
+function attachFormListeners(){
+  const registerForm = document.getElementById('registerForm');
+  if(registerForm){
+    registerForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      let name=this[0].value.trim();
+      let email=this[1].value.trim();
+      let pass=this[2].value;
+      let confirmPass=this[3].value;
+      if(pass!==confirmPass){ alert('Passwords do not match!'); return; }
+      if(users.find(u=>u.email===email)){ alert('Email already registered!'); return; }
+      users.push({name,email,pass});
+      localStorage.setItem('demoUsers',JSON.stringify(users));
+      alert('Registration successful! You can now login.');
+      showLogin();
+    });
+  }
+  const loginForm = document.getElementById('loginForm');
+  if(loginForm){
+    loginForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      let email=this[0].value.trim();
+      let pass=this[1].value;
+      let user = users.find(u=>u.email===email && u.pass===pass);
+      if(user){
+        currentUser=user;
+        localStorage.setItem('currentUser',JSON.stringify(user));
+        updateNavbar();
+        alert(`Welcome, ${user.name}!`);
+      } else { alert('Invalid email or password!'); }
+    });
+  }
+}
+
+// Init
+attachFormListeners();
+updateNavbar();
+</script>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investment Opportunities</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      color: #333;
+    }
+    header {
+      background-color: transparent;
+      color: #111;
+      text-align: center;
+      padding: 50px 20px;
+    }
+    header h1 {
+      margin: 0 0 10px;
+      font-size: 3em;
+    }
+    header p {
+      font-size: 1.2em;
+    }
+    section {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .investment-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+    }
+    .investment-card {
+      background-color: #fff;
+      border-radius: 12px;
+      flex: 1 1 250px;
+      max-width: 300px;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+    }
+    .investment-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+    .investment-card h3 {
+      margin: 0 0 10px;
+      color: #00f0ff;
+    }
+    .investment-card p {
+      flex: 1;
+      color: #555;
+      line-height: 1.4;
+      margin-bottom: 15px;
+    }
+    .investment-card .contact {
+      font-weight: bold;
+      color: #333;
+      cursor: pointer;
+    }
+    .investment-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+    .seminar-card {
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 30px;
+      margin-top: 40px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .seminar-card img {
+      width: 100%;
+      max-width: 900px;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .seminar-card h2 {
+      color: #00f0ff;
+      font-size: 2em;
+      margin-bottom: 15px;
+    }
+    .seminar-card p {
+      color: #555;
+      font-size: 1.2em;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+    .seminar-card .contact {
+      font-weight: bold;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .bible-verse {
+    font-weight: bold;
+    margin-top: 20px;
+    font-size: 1.5rem;
+    color: #00796b;
+    text-align: center;
+    }
+
+    .disclaimer {
+      background-color: #d0d0d0;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 40px;
+      line-height: 1.6;
+    }
+    .disclaimer h3 {
+      color: #333;
+      margin-top: 0;
+    }
+    @media (max-width: 900px) {
+      .investment-grid {
+        flex-direction: column;
+        align-items: center;
+      }
+      .seminar-card img {
+        height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Invest With Us</h1>
+    <p>Explore community-friendly investment opportunities compliant with South African financial regulations.
+  </header>
+
+  <section>
+    <div class="investment-grid">
+      <!-- Forex Trading -->
+      <div class="investment-card">
+        <img src="https://images.pexels.com/photos/696311/pexels-photo-696311.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Forex Trading">
+        <h3>Forex Trading</h3>
+        <p>Trade global currency markets with transparency and structured guidance.</p>
+        <p class="contact">📞 +27 62 456 3015</p>
+      </div>
+
+      <!-- Businesses -->
+      <div class="investment-card">
+        <img src="https://images.pexels.com/photos/3183186/pexels-photo-3183186.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Business Investment">
+        <h3>Businesses</h3>
+        <p>Invest in growing local companies for community benefit and shared growth.</p>
+        <p class="contact">📞 +27 62 456 3015</p>
+      </div>
+
+      <!-- Real Estate -->
+      <div class="investment-card">
+        <img src="https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Real Estate Investment">
+        <h3>Real Estate</h3>
+        <p>Residential and commercial property investing, aligned with SA laws.</p>
+        <p class="contact">📞 +27 62 456 3015</p>
+      </div>
+
+      <!-- Commodities w/ Gold Bars & Oil -->
+      <div class="investment-card">
+        <img src="https://images.pexels.com/photos/33539235/pexels-photo-33539235.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Gold Bars Investment">
+        <h3>Commodities</h3>
+        <p>Invest in precious metals like gold and energy resources like oil — stable and diversified assets.</p>
+        <p class="contact">📞 +27 62 456 3015</p>
+      </div>
+    </div>
+
+
+  <div class="bible-verse">
+    Ecclesiastes 11:1-2: Invest your money in foreign trade, and one of these days you will make a profit. Put your investments in several places—many places even—because you never know what kind of bad luck you are going to have in this world.
+  </div>
+</div>
+
+    <!-- Investing Seminars -->
+    <div class="seminar-card">
+      <img src="https://images.pexels.com/photos/3184293/pexels-photo-3184293.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Investing Seminars">
+      <h2>Investing Seminars</h2>
+      <p>Join expert-led seminars covering Forex, Business, Real Estate & Commodities investing — perfect for community learning and smart growth.</p>
+      <p class="contact">📞 +27 62 456 3015</p>
+    </div>
+
+    <div class="disclaimer">
+      <h3>Disclaimer & Regulations</h3>
+      <p>Investments carry risk; past returns don’t guarantee future performance. All activities follow South African regulatory standards (e.g., FSCA) and community-friendly ethical practices. By engaging, you accept all investment risks and agree to perform your own due diligence.</p>
+    </div>
+  </section>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soft Neon Footer with Brand Icons</title>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: #fff;
+    }
+
+    .content {
+      flex: 1;
+      padding: 20px;
+    }
+
+    footer.neon-footer {
+      background: white;
+      color: #fff;
+      text-align: center;
+      padding: 4px 20px;
+      border-top: 2px solid #00f0ff;
+      position: relative;
+      overflow: hidden;
+      animation: footerPulse 3s infinite alternate;
+    }
+
+    @keyframes footerPulse {
+      0% { box-shadow: 0 0 5px #00f0ff, 0 0 10px #00f0ff; }
+      50% { box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff; }
+      100% { box-shadow: 0 0 5px #00f0ff, 0 0 10px #00f0ff; }
+    }
+
+    .neon-footer .footer-logo {
+      font-size: 2.5em;
+      color: #00f0ff;
+      text-shadow: 0 0 3px #00f0ff, 0 0 6px #00f0ff, 0 0 12px #00f0ff;
+      margin-bottom: 20px;
+      transition: 0.3s;
+      animation: logoPulse 2s infinite alternate;
+    }
+
+    @keyframes logoPulse {
+      0% { text-shadow: 0 0 3px #00f0ff, 0 0 6px #00f0ff, 0 0 12px #00f0ff; }
+      50% { text-shadow: 0 0 6px #00f0ff, 0 0 12px #00f0ff, 0 0 18px #00f0ff; }
+      100% { text-shadow: 0 0 3px #00f0ff, 0 0 6px #00f0ff, 0 0 12px #00f0ff; }
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+
+    .footer-links li a {
+      color: black;
+      text-decoration: none;
+      font-weight: bold;
+      position: relative;
+      transition: 0.3s;
+    }
+
+    .footer-links li a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      left: 0;
+      bottom: -5px;
+      background: #00f0ff;
+      transition: width 0.3s;
+    }
+
+    .footer-links li a:hover::after {
+      width: 100%;
+    }
+
+    .social-icons {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .social {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.5em;
+      transition: 0.3s;
+      animation: socialPulse 2s infinite alternate, float 3s infinite ease-in-out;
+      color: #fff;
+    }
+
+    @keyframes socialPulse {
+      0% { box-shadow: 0 0 2px currentColor, 0 0 4px currentColor; }
+      50% { box-shadow: 0 0 4px currentColor, 0 0 8px currentColor; }
+      100% { box-shadow: 0 0 2px currentColor, 0 0 4px currentColor; }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+      100% { transform: translateY(0px); }
+    }
+
+    /* Stagger the pulses */
+    .social:nth-child(1) { animation-delay: 0s, 0s; }
+    .social:nth-child(2) { animation-delay: 0.3s, 0.2s; }
+    .social:nth-child(3) { animation-delay: 0.6s, 0.4s; }
+
+    /* Brand colors for each icon */
+    .social.whatsapp { color: #25D366; border-color: #25D366; }
+    .social.facebook { color: #3b5998; border-color: #3b5998; }
+    .social.telegram { color: #0088cc; border-color: #0088cc; }
+
+    .social:hover {
+      color: #111;
+      background-color: currentColor;
+      /* softened hover glow */
+      box-shadow: 0 0 8px currentColor, 0 0 16px currentColor;
+    }
+
+    .footer-copy {
+      font-size: 0.8em;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+  <footer class="neon-footer">
+    <div class="footer-content">
+      <h2 class="footer-logo">ECG TJN TRIBE OF ZEBULUN SA</h2>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="contact_and_Support.html">Contact</a></li>
+      </ul>
+      <div class="social-icons">
+        <a href="#" class="social whatsapp"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="social facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social telegram"><i class="fab fa-telegram-plane"></i></a>
+      </div>
+    </div>
+    <p class="footer-copy">© 2026 ECG TJN TRIBE OF ZEBULUN SA. All rights reserved.</p>
+  </footer>
+</body>
+</html>
+</body>
+</html>
